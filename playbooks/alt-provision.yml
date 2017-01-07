@@ -1,0 +1,20 @@
+---
+- hosts: all
+  become: yes
+
+  vars_files:
+    - alt-vars.yml
+
+  roles:
+    - geerlingguy.git
+    - geerlingguy.ruby
+    - geerlingguy.passenger
+
+  tasks:
+    - name: Ensure app directory exists and is writeable.
+      file:
+        path: "{{ app_directory }}"
+        state: directory
+        owner: "{{ app_user }}"
+        group: "{{ app_user }}"
+        mode: 0755

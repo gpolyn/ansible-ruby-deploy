@@ -1,0 +1,34 @@
+---
+- hosts: all
+  become: yes
+
+  vars_files:
+    - alt-vars.yml
+
+  roles:
+    - geerlingguy.passenger
+
+  tasks:
+    - name: Ensure demo application is at correct release.
+      git:
+        repo: https://github.com/gpolyn/twilio-ruby-demo.git
+        version: "{{ app_version }}"
+        dest: "{{ app_directory }}"
+        accept_hostkey: true
+        force: yes
+      register: app_updated
+      notify: restart nginx
+
+    - name: Install required dependencies with bundler.
+      shell: "bundle install chdir={{ app_directory }}"
+      when: app_updated.changed == true
+      notify: restart nginx
+
+    - name: Ensure demo application has correct user for files.
+      file:
+        path: "{{ app_directory }}"
+        state: directory
+        owner: "{{ app_user }}"
+        group: "{{ app_user }}"
+        recurse: yes
+      notify: restart nginx
