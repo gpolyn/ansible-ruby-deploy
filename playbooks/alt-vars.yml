@@ -1,0 +1,17 @@
+---
+# Variables for our app.
+# app_version: 9946fcb1c90b63a096f0b923618cfbc42d78f7b3
+app_version: 5d467fef5c0ad7cb038a2cee8525ed3179b49fb7
+app_directory: /opt/simple-sinatra-app
+app_user: www-data
+
+# Variables for Passenger and Nginx.
+passenger_server_name: 0.0.0.0
+passenger_app_root: /opt/simple-sinatra-app/public
+passenger_app_env: production
+passenger_ruby: /usr/local/bin/ruby
+
+# Variables for Ruby installation.
+ruby_install_from_source: true
+ruby_download_url: http://cache.ruby-lang.org/pub/ruby/2.3/ruby-2.3.3.tar.gz
+ruby_version: 2.3.3
